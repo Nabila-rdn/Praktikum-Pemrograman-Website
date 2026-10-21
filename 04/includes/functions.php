@@ -10,26 +10,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $npm = $_POST['npm'] ?? '';
-    $nama = $_POST['nama'] ?? '';
-    $program_studi = $_POST['program_studi'] ?? '';
-    $angkatan = $_POST['tahun'] ?? '';
-    $email = $_POST['email'] ?? '';
-    
-
-    // Panggil fungsi proses tambah data dengan validasi server-side
-    $hasil = tambah_mahasiswa($npm, $nama, $program_studi, $angkatan, $email);
-
-    if ($hasil['status']) {
-        set_flash_message('success', $hasil['message']);
-    } else {
-        set_flash_message('danger', $hasil['message']);
-    }
-} else {
-    set_flash_message('danger', 'Akses tidak valid! Formulir harus dikirim melalui metode POST.');
-}
-
 /**
  * Inisialisasi data mahasiswa pada session jika belum ada
  */
@@ -41,28 +21,28 @@ function init_mahasiswa_session() {
                 'nama' => 'Ahmad Fauzi',
                 'program_studi' => 'Teknik Informatika',
                 'angkatan' => 2023,
-                'email => 'ahmad.fauzi@example.com'
+                'email' => 'ahmad.fauzi@example.com'
             ],
             [
                 'npm' => '230101002',
                 'nama' => 'Siti Nurhaliza',
                 'program_studi' => 'Sistem Informasi',
                 'angkatan' => 2023,
-                'email => 'siti.nurhaliza@example.com' 
+                'email' => 'siti.nurhaliza@example.com' 
             ],
             [
-                'npm' => '2301010001',
-                'nama' => 'Ahmad Fauzi',
-                'program_studi' => 'Teknik Informatika',
-                'angkatan' => 2023,
-                'email => 'ahmad.fauzi@example.com'
+                'npm' => '2401010015',
+                'nama' => 'Budi Santosoi',
+                'program_studi' => 'Teknologi Informasi',
+                'angkatan' => 2024,
+                'email' => 'budi.santosoo@example.com'
             ]
         ];
     } 
 }
 
 function sanitize($data) {
-   return htmlspecialchars(trim($data), ENT_QUOTES, 'UTF-8); 
+   return htmlspecialchars(trim($data), ENT_QUOTES, 'UTF-8'); 
 }
 
 /**
@@ -96,7 +76,7 @@ function get_all_mahasiswa($keyword = '') {
  * Menghitung total data mahasiswa yang tersimpan
  */
 function count_total_mahasiswa() {
-    int_mahasiswa_session();
+    init_mahasiswa_session();
     return count($_SESSION['daftar_mahasiswa']);
 }
 
@@ -211,7 +191,7 @@ function hapus_mahasiswa($npm) {
 /**
  * Set flash message untuk feedback notifikasi pengguna
  */
-function set_flash_massage($type, $message){
+function set_flash_message($type, $message){
     $_SESSION['flash_message'] = [
     'type' => $type,
     'message' => $message];
@@ -222,11 +202,9 @@ function set_flash_massage($type, $message){
  */
 function get_flash_message(){
     if(isset($_SESSION['flash_message'])) {
-        $flash = @_SESSION['flash_message'];
+        $flash = $_SESSION['flash_message'];
         unset($_SESSION['flash_message']);
         return $flash;
     }
-    return null
+    return null;
 }
-
-

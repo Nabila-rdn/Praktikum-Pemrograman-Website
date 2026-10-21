@@ -8,14 +8,9 @@
 // memanggil file functions.php
 require_once __DIR__ . '/includes/functions.php';
 
-$page_tittle = 'Uji FungsiModuler - Percobaan 1';
-$daftar_mahasiswa = get_all_mahasiswa();
-$total_semua = count_total_mahasiswa();
-// Ambil keyword pencarian jika ada
-
 // Percobaan 4-4 Langkah 2
 $keyword = isset($_GET['search']) ? trim($_GET['search']) : '';
-$daftar_mahasiswa =get_all_mahasiswa($keyword);
+$daftar_mahasiswa = get_all_mahasiswa($keyword);
 $total_semua = count_total_mahasiswa();
 $total_tampil = count($daftar_mahasiswa);
 
@@ -75,7 +70,7 @@ require_once __DIR__ . '/includes/header.php';
         <form action="index.php#daftar-mahasiswa" method="get" class="search-form">
             <input 
                 type="search" 
-                nama="search" 
+                name="search" 
                 class="search-input" 
                 placeholder="Cari berdasarkan npm, Nama, atau Prodi..."
                 value="<?= htmlspecialchars($keyword) ?>">
@@ -114,8 +109,8 @@ require_once __DIR__ . '/includes/header.php';
                     <!-- Percobaan 4-2 Langkah 4 -->
                     <tr>
                         <td colspan="8" class="empty-row">
-                            <?=  !empty($keyword)
-                                ? 'Tidak ditemukan data mahasiswa dengan kata kunci"' . htmlspecialchars($keyword) . '" . '
+                            <?= !empty($keyword)
+                                ? 'Tidak ditemukan data mahasiswa dengan kata kunci "' . htmlspecialchars($keyword) . '".'
                                 : 'Belum ada data mahasiswa yang tersimpan.' ?>
                         </td>
                     </tr>
@@ -130,16 +125,14 @@ require_once __DIR__ . '/includes/header.php';
                             </td>
                             <td><strong><?= htmlspecialchars($mhs['npm']) ?></strong></td>
                             <td><?= htmlspecialchars($mhs['nama']) ?></td>
-                            <td><span class="badge"><?= $mhs['program_studi'] ?></span></td>
+                            <td><span class="badge"><?= htmlspecialchars($mhs['program_studi']) ?></span></td>
                             <td><?= htmlspecialchars($mhs['angkatan']) ?></td>
                             <td><a href="mailto:<?= htmlspecialchars($mhs['email']) ?>" class="link-email"><?= htmlspecialchars($mhs['email']) ?></a></td>
                             <td>
                                 <!-- Percobaan 4-2 Langkah 5 -->
-                                <a href="proses_hapus.php?id=<?= urlencode($mhs['npm']) ?>"
-                                class="btn btn-danger btn-sm"
-                                oneclick="return confirm('Apakah Anda yakin ingin menghapus mahasiswa: <?= 
-                                htmlspecialchars(addslashes($mhs['nama'])) ?>
-                                (npm: <?= htmlspecialchars($mhs['npm']) ?>)?');">Hapus</a>
+                                <a href="proses_hapus.php?npm=<?= urlencode($mhs['npm']) ?>"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Apakah Anda yakin ingin menghapus mahasiswa: <?= htmlspecialchars(addslashes($mhs['nama'])) ?> (npm: <?= htmlspecialchars($mhs['npm']) ?>)?');">Hapus</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -166,7 +159,7 @@ require_once __DIR__ . '/includes/header.php';
                     <input 
                         type="text" 
                         id="npm" 
-                        nama="npm" 
+                        name="npm" 
                         class="form-input" 
                         placeholder="Contoh: 230101001" 
                         required 
@@ -179,7 +172,7 @@ require_once __DIR__ . '/includes/header.php';
                     <input 
                         type="text" 
                         id="nama" 
-                        nama="nama" 
+                        name="nama" 
                         class="form-input" 
                         placeholder="Contoh: Ahmad Fauzi" 
                         required 
@@ -189,7 +182,7 @@ require_once __DIR__ . '/includes/header.php';
 
                 <div class="form-group">
                     <label for="program_studi" class="form-label">Program Studi:</label>
-                    <select id="program_studi" nama="program_studi" class="form-select" required>
+                    <select id="program_studi" name="program_studi" class="form-select" required>
                         <option value="">-- Pilih Program Studi --</option>
                         <option value="Teknik Informatika">Teknik Informatika</option>
                         <option value="Sistem Informasi">Sistem Informasi</option>
@@ -204,7 +197,7 @@ require_once __DIR__ . '/includes/header.php';
                     <input 
                         type="number" 
                         id="angkatan" 
-                        nama="angkatan" 
+                        name="angkatan" 
                         class="form-input" 
                         placeholder="Contoh: 2024" 
                         required 
@@ -218,7 +211,7 @@ require_once __DIR__ . '/includes/header.php';
                     <input 
                         type="email" 
                         id="email" 
-                        nama="email" 
+                        name="email" 
                         class="form-input" 
                         placeholder="Contoh: ahmad.fauzi@example.com" 
                         required>
@@ -235,4 +228,4 @@ require_once __DIR__ . '/includes/header.php';
 </section>
 
 <!-- memanggil file footer.php -->
-
+<?php require_once __DIR__ . '/includes/footer.php'; ?>
